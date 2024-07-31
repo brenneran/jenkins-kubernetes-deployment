@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/brenneran/jenkins-kubernetes-deployment.git'
+        git 'https://github.com/brenneran/jenkins-kubernetes-deployment'
       }
     }
     stage('Build image') {
