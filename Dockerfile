@@ -9,7 +9,7 @@ WORKDIR /react-app
 COPY package.json .
 COPY package-lock.json .
 #install all the React.js application dependencies
-RUN npm install --verbose
+RUN npm install
 COPY . .
 #Expose the React.js application container on port 3000
 EXPOSE 3000
