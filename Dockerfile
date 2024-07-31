@@ -1,17 +1,26 @@
-#It will use node:19-alpine3.16 as the parent image for 
-#building the Docker image
-FROM node:lts-alpine as build-stage
-#It will create a working directory for Docker. The Docker
-#image will be created in this working directory.
+# Use node:lts-alpine as the base image for building the Docker image
+FROM node:lts-alpine AS build-stage
+
+# Install kubectl
+RUN apk add --no-cache curl && \
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    chmod +x kubectl && \
+    mv kubectl /usr/local/bin/
+
+# Create a working directory
 WORKDIR /react-app
-#Copy the React.js application dependencies from the 
-#package.json to the react-app working directory.
-COPY package.json .
-COPY package-lock.json .
-#install all the React.js application dependencies
+
+# Copy the application dependencies
+COPY package.json package-lock.json ./
+
+# Install dependencies
 RUN npm install --verbose
+
+# Copy the remaining application files
 COPY . .
-#Expose the React.js application container on port 3000
+
+# Expose the application container on port 3000
 EXPOSE 3000
-#The command to start the React.js application container
+
+# Command to start the application
 CMD ["npm", "start"]
